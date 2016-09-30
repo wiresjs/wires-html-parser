@@ -7,7 +7,7 @@ export default class Tag {
     public attrs: any[] = [];
     public raw: string = "";
     public consumed: boolean;
-    public autoClosed : boolean;
+    public autoClosed: boolean;
 
     constructor(parent?) {
         this.parent = parent;
