@@ -1,5 +1,3 @@
-"use realm";
-
 import { State } from "./State";
 
 let s = 0;

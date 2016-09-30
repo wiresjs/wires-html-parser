@@ -39,7 +39,6 @@ define("State", ["require", "exports"], function (require, exports) {
     exports.State = State;
 });
 define("AttributeAnalyzer", ["require", "exports", "State"], function (require, exports, State_1) {
-    "use realm";
     "use strict";
     let s = 0;
     const NAME_PENDING = (s++).toString();
@@ -160,7 +159,6 @@ define("AttributeAnalyzer", ["require", "exports", "State"], function (require, 
     exports.default = AttributeAnalyzer;
 });
 define("TagAnalyzer", ["require", "exports", "State"], function (require, exports, State_2) {
-    "use realm";
     "use strict";
     const TAG_OPENED = "1";
     const TAG_CLOSING = "2";
