@@ -11,6 +11,11 @@ const uglify = require("gulp-uglify");
 const babel = require("gulp-babel");
 const replace = require("gulp-replace");
 let project = ts.createProject('src/tsconfig.json');
+let projectEs2015 = ts.createProject('src/tsconfig.json', {
+    module: "es6",
+    outDir: "dist/es6",
+    outFile: undefined
+});
 let typingsProject = ts.createProject('src/tsconfig.json', {
     module: "system",
     outFile: null,
@@ -45,7 +50,15 @@ gulp.task("minify", function() {
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
 })
-gulp.task('build-dist', function() {
+
+gulp.task('build-dist-es2015', function() {
+    let result = gulp.src('src/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(projectEs2015()).js
+        .pipe(gulp.dest('dist/es2015'))
+});
+
+gulp.task('build-dist-universal', function() {
     let result = gulp.src('src/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(project());
@@ -59,10 +72,10 @@ gulp.task('build-dist', function() {
             expose: 'index',
         }))
         .pipe(rename('dist.js'))
-        .pipe(gulp.dest('dist/'))
+        .pipe(gulp.dest('dist/universal'))
     ]);
 });
-gulp.task("dist", ["build-dist"], function() {
+gulp.task("dist", ["build-dist-universal", "build-dist-es2015"], function() {
     return runSequence("minify");
 });
 
