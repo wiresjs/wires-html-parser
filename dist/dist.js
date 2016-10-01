@@ -357,6 +357,10 @@ define("Parser", ["require", "exports", "TagAnalyzer", "Tag", "Text"], function 
             }
             return root ? json ? Parser.toJSON(root.children) : root.children : [];
         }
+        static html2json(data) {
+            let json = this.parse(data);
+            return this.toJSON(json);
+        }
         static toJSON(data) {
             let items = [];
             for (let i = 0; i < data.length; i++) {

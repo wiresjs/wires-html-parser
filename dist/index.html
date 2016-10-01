@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="dist.min.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script id="tpl" type="text/template">
+    <div class="title">
+        <h1>Hello World</h1>
+        <ul>
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ul>
+    </div>
+</script>
+<script>
+    let html = document.querySelector("#tpl").innerHTML;
+    let json = HTMLParser.html2json(html);
+
+    let target = document.querySelector('body');
+
+
+    var restore = (items, parent) => {
+        console.log(items)
+        for (let i in items) {
+            let schema = items[i]
+            if (schema.type === "text") {
+                parent.appendChild(document.createTextNode(schema.value))
+            }
+            if (schema.type === "tag") {
+                let el = document.createElement(schema.name);
+                // restore attrs here
+                // ...
+
+                parent.appendChild(el)
+                if (schema.children) {
+                    restore(schema.children, el)
+                }
+            }
+        }
+
+    }
+
+    restore(json, target)
+</script>
+
+</html>

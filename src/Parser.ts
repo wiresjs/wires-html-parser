@@ -72,6 +72,11 @@ export class Parser {
         return root ? json ? Parser.toJSON(root.children) : root.children : [];
     }
 
+    public static html2json(data: any) {
+        let json = this.parse(data);
+        return this.toJSON(json);
+    }
+
     public static toJSON(data: any) {
         let items = [];
         for (let i = 0; i < data.length; i++) {
