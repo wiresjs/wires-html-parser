@@ -42,13 +42,13 @@ gulp.task('build', function() {
 });
 
 gulp.task("minify", function() {
-    return gulp.src('dist/dist.js')
+    return gulp.src('dist/universal/dist.js')
 
     .pipe(rename('dist.min.js'))
         .pipe(babel({ presets: ["es2015"] }))
         .pipe(replace(/exports : undefined,/, "exports : this,"))
         .pipe(uglify())
-        .pipe(gulp.dest('dist/'));
+        .pipe(gulp.dest('dist/universal'));
 })
 
 gulp.task('build-dist-es2015', function() {
