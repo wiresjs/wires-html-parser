@@ -1,6 +1,6 @@
 {
-    "name": "sample",
-    "version": "1.0.1",
+    "name": "wires-html-parser",
+    "version": "1.0.0",
     "description": "Hello!",
     "main": "dist/index.js",
     "directories": {
