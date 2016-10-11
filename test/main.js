@@ -181,10 +181,29 @@ describe('HTMLparser', function() {
         }])
 
     });
-    // it('Should close the latest tag is not closed', function() {
-    //
-    //    var data = Parser.parse('<h1><div>sdff<h2>ss</div>', true);
-    //    console.log(JSON.stringify(data, 2, 2))
-    //
-    // });
+    it('Should parse comments', function() {
+
+        var data = Parser.parse('<div><!--my comment--></div>', true);
+        data.should.deepEqual([{
+            "type": "tag",
+            "name": "div",
+            "children": [{
+                "type": "comment",
+                "value": "my comment"
+            }]
+        }]);
+    });
+
+    it('Should parse comments (2) ', function() {
+
+        var data = Parser.parse('<div><!-- my-comment --></div>', true);
+        data.should.deepEqual([{
+            "type": "tag",
+            "name": "div",
+            "children": [{
+                "type": "comment",
+                "value": " my-comment "
+            }]
+        }]);
+    });
 });

@@ -15,7 +15,18 @@ export class State {
      */
     private states = new Set<any>();
 
+    private memorizedChar;
+    public memorizeChar(char: string) {
+        this.memorizedChar = char;
+    }
 
+    public getMemorizedChar() {
+        return this.memorizedChar;
+    }
+
+    public resetMemorized() {
+        delete this.memorizedChar
+    }
     /**
      * Set new state
      *
@@ -87,5 +98,9 @@ export class State {
             let name = arguments[i];
             this.states.delete(name);
         }
+    }
+
+    public removeAll() {
+        this.states = new Set<any>();
     }
 }

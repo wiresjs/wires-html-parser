@@ -1,6 +1,7 @@
+import { Comment } from "./Comment";
 import TagAnalyzer from "./TagAnalyzer";
-import {Tag} from "./Tag";
-import {Text} from "./Text";
+import { Tag } from "./Tag";
+import { Text } from "./Text";
 
 
 const AUTO_CLOSED_TAGS = ["area", "base", "br", "col",
@@ -28,14 +29,28 @@ export class Parser {
 
         let analyzer = new TagAnalyzer();
         let root = new Tag();
+        let comment: Comment;
         let text;
 
         for (let i = 0; i < html.length; i++) {
             let symbol = html[i];
             let last = i === html.length - 1;
             analyzer.analyze(symbol, last);
-
-            if (analyzer.isCreated()) {
+            if (analyzer.shouldResumeComment()) {
+                if (comment) {
+                    comment.add(analyzer.state.getMemorizedChar()); // resume a comment here
+                }
+            }
+            if (analyzer.isCommentCreated()) {
+                comment = new Comment();
+            } else if (analyzer.isCommentConsuming()) {
+                if (comment) {
+                    comment.add(symbol);
+                }
+            } else if (analyzer.isCommentClosed()) {
+                root.addTag(comment);
+                comment = null;
+            } else if (analyzer.isCreated()) {
                 let tag = new Tag(root);
                 tag.parse(symbol);
                 root.addTag(tag);
@@ -84,7 +99,9 @@ export class Parser {
 
             let obj: any = {};
             let isTag = item instanceof Tag;
-            obj.type = isTag ? "tag" : "text";
+            let isComment = item instanceof Comment;
+
+            obj.type = isComment ? "comment" : isTag ? "tag" : "text";
             let attrs = {};
             if (item.attrs) {
                 for (let a = 0; a < item.attrs.length; a++) {
@@ -102,6 +119,9 @@ export class Parser {
             }
             if (item.name) {
                 obj.name = item.name;
+            }
+            if (item.value) {
+                obj.value = item.value;
             }
             if (item.children && item.children.length) {
                 obj.children = Parser.toJSON(item.children);
