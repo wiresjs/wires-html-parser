@@ -1,4 +1,4 @@
 export declare class Text {
-    str: string;
-    constructor(str: string);
+    value: string;
+    constructor(value: string);
 }

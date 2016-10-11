@@ -23,6 +23,7 @@ export default class TagAnalyzer {
     public state: State;
     constructor() {
         this.state = new State();
+        this.state.set(TAG_TEXT_OPENING);
     }
 
     /**
@@ -112,7 +113,7 @@ export default class TagAnalyzer {
 
         if (i === "/" && state.has(TAG_OPENING)) {
             state.set(TAG_CLOSING);
-            state.unset(TAG_OPENING, TAG_OPENED)
+            state.unset(TAG_OPENING, TAG_OPENED);
         }
 
         if (state.once(COMMENT_CREATED)) {
@@ -140,6 +141,7 @@ export default class TagAnalyzer {
             if (i === ">") {
                 state.removeAll();
                 state.set(COMMENT_CLOSED);
+                state.set(TAG_TEXT_OPENING); // don't forget text
                 return;
             }
         }
@@ -173,7 +175,6 @@ export default class TagAnalyzer {
 
         if (state.has(TAG_OPENING)) {
             if (i === "!") {
-
                 state.set(SUSPECTING_COMMENT);
             } else {
                 state.set(TAG_CREATED);

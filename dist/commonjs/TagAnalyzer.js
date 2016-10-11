@@ -20,6 +20,7 @@ const SUSPECTING_CLOSING_COMMENT = "14";
 class TagAnalyzer {
     constructor() {
         this.state = new State_1.State();
+        this.state.set(TAG_TEXT_OPENING);
     }
     isCreated() {
         return this.state.has(TAG_CREATED);
@@ -86,6 +87,7 @@ class TagAnalyzer {
             if (i === ">") {
                 state.removeAll();
                 state.set(COMMENT_CLOSED);
+                state.set(TAG_TEXT_OPENING);
                 return;
             }
         }

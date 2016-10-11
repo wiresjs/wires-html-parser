@@ -1,7 +1,7 @@
 "use strict";
 class Text {
-    constructor(str) {
-        this.str = str;
+    constructor(value) {
+        this.value = value;
     }
 }
 exports.Text = Text;

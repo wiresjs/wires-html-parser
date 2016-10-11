@@ -84,7 +84,8 @@ export class Parser {
                 text = undefined;
             }
         }
-        return root ? json ? Parser.toJSON(root.children) : root.children : [];
+        return root ?
+            json ? Parser.toJSON(root.children) : root.children : [];
     }
 
     public static html2json(data: any) {

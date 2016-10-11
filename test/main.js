@@ -3,7 +3,8 @@ var Parser = build.HTMLParser;
 var should = require('should');
 describe('HTMLparser', function() {
 
-    /* */
+    /**/
+
     it('Should parse one tag', function() {
 
         var data = Parser.parse('<div id="test"></div>', true);
@@ -153,7 +154,7 @@ describe('HTMLparser', function() {
     it('Should ignore explicit closing on autoclosing tag', function() {
 
         var data = Parser.parse('<input></input><br>hello', true);
-        //      console.log(JSON.stringify(data, 2, 2))
+
         data.should.deepEqual([{
             "type": "tag",
             "name": "input"
@@ -194,25 +195,12 @@ describe('HTMLparser', function() {
         }]);
     });
 
-    it('Should parse comments (2) ', function() {
-
-        var data = Parser.parse('<div><!-- my-comment --></div>', true);
-        data.should.deepEqual([{
-            "type": "tag",
-            "name": "div",
-            "children": [{
-                "type": "comment",
-                "value": " my-comment "
-            }]
-        }]);
-    });
 
 
 
     it('Should parse html and comments ', function() {
 
         var data = Parser.parse('<div id="restore"><root data-test style="flot: left; background: red;">first text node<!--comment--><h1 >a</h1><component >b</component></root></div>', true);
-        // console.log(data);
 
         data.should.deepEqual([{
             "type": "tag",
@@ -258,13 +246,69 @@ describe('HTMLparser', function() {
     });
 
 
-    it('Should parse root textNodes and comments ', function() {
 
-        var data = Parser.parse('<!-- my-comment --> hello world<div>inner</div>', false);
-        //console.log(data);
-        // console.log(JSON.stringify(data, 2, 2));
+
+    it('Should parse comments (2) ', function() {
+
+        var data = Parser.parse('<div><!-- my-comment --></div>', true);
+
+        data.should.deepEqual([{
+            "type": "tag",
+            "name": "div",
+            "children": [{
+                "type": "comment",
+                "value": " my-comment "
+            }]
+        }]);
     });
 
+
+    it('Should parse comments and texts ', function() {
+
+        var data = Parser.parse('<div>first<!--1-->second</div>', true);
+
+        data.should.deepEqual([{
+            "type": "tag",
+            "name": "div",
+            "children": [{
+                    "type": "text",
+                    "value": "first"
+                },
+                {
+                    "type": "comment",
+                    "value": "1"
+                },
+                {
+                    "type": "text",
+                    "value": "second"
+                }
+            ]
+        }])
+    });
+
+    it('Should parse root textNodes and comments ', function() {
+
+        var data = Parser.parse('first<!-- my comment -->second<div></div>', true);
+
+        data.should.deepEqual([{
+                "type": "text",
+                "value": "first"
+            },
+            {
+                "type": "comment",
+                "value": " my comment "
+            },
+            {
+                "type": "text",
+                "value": "second"
+            },
+            {
+                "type": "tag",
+                "name": "div",
+                "children": []
+            }
+        ])
+    });
 
 
 });

@@ -71,7 +71,8 @@ class Parser {
                 text = undefined;
             }
         }
-        return root ? json ? Parser.toJSON(root.children) : root.children : [];
+        return root ?
+            json ? Parser.toJSON(root.children) : root.children : [];
     }
     static html2json(data) {
         let json = this.parse(data);
