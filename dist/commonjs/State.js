@@ -3,6 +3,15 @@ class State {
     constructor() {
         this.states = new Set();
     }
+    memorizeChar(char) {
+        this.memorizedChar = char;
+    }
+    getMemorizedChar() {
+        return this.memorizedChar;
+    }
+    resetMemorized() {
+        delete this.memorizedChar;
+    }
     set(...args) {
         for (let i = 0; i < arguments.length; i++) {
             let name = arguments[i];
@@ -32,6 +41,9 @@ class State {
             let name = arguments[i];
             this.states.delete(name);
         }
+    }
+    removeAll() {
+        this.states = new Set();
     }
 }
 exports.State = State;

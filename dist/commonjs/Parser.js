@@ -1,4 +1,5 @@
 "use strict";
+const Comment_1 = require("./Comment");
 const TagAnalyzer_1 = require("./TagAnalyzer");
 const Tag_1 = require("./Tag");
 const Text_1 = require("./Text");
@@ -8,12 +9,30 @@ class Parser {
     static parse(html, json) {
         let analyzer = new TagAnalyzer_1.default();
         let root = new Tag_1.Tag();
+        let comment;
         let text;
         for (let i = 0; i < html.length; i++) {
             let symbol = html[i];
             let last = i === html.length - 1;
             analyzer.analyze(symbol, last);
-            if (analyzer.isCreated()) {
+            if (analyzer.shouldResumeComment()) {
+                if (comment) {
+                    comment.add(analyzer.state.getMemorizedChar());
+                }
+            }
+            if (analyzer.isCommentCreated()) {
+                comment = new Comment_1.Comment();
+            }
+            else if (analyzer.isCommentConsuming()) {
+                if (comment) {
+                    comment.add(symbol);
+                }
+            }
+            else if (analyzer.isCommentClosed()) {
+                root.addTag(comment);
+                comment = null;
+            }
+            else if (analyzer.isCreated()) {
                 let tag = new Tag_1.Tag(root);
                 tag.parse(symbol);
                 root.addTag(tag);
@@ -64,7 +83,8 @@ class Parser {
             let item = data[i];
             let obj = {};
             let isTag = item instanceof Tag_1.Tag;
-            obj.type = isTag ? "tag" : "text";
+            let isComment = item instanceof Comment_1.Comment;
+            obj.type = isComment ? "comment" : isTag ? "tag" : "text";
             let attrs = {};
             if (item.attrs) {
                 for (let a = 0; a < item.attrs.length; a++) {
@@ -80,6 +100,9 @@ class Parser {
             }
             if (item.name) {
                 obj.name = item.name;
+            }
+            if (item.value) {
+                obj.value = item.value;
             }
             if (item.children && item.children.length) {
                 obj.children = Parser.toJSON(item.children);
