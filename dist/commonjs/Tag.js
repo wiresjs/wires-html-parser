@@ -1,32 +1,32 @@
 "use strict";
-const AttributeAnalyzer_1 = require("./AttributeAnalyzer");
-class Tag {
-    constructor(parent) {
+var AttributeAnalyzer_1 = require("./AttributeAnalyzer");
+var Tag = (function () {
+    function Tag(parent) {
         this.name = "";
         this.children = [];
         this.attrs = [];
         this.raw = "";
         this.parent = parent;
     }
-    addAttribute() {
+    Tag.prototype.addAttribute = function () {
         this.attrs.push(["", ""]);
-    }
-    add2AttributeName(s) {
-        let latest = this.attrs.length - 1;
+    };
+    Tag.prototype.add2AttributeName = function (s) {
+        var latest = this.attrs.length - 1;
         this.attrs[latest][0] += s;
-    }
-    add2AttributeValue(s) {
-        let latest = this.attrs.length - 1;
+    };
+    Tag.prototype.add2AttributeValue = function (s) {
+        var latest = this.attrs.length - 1;
         this.attrs[latest][1] += s;
-    }
-    addTag(tag) {
+    };
+    Tag.prototype.addTag = function (tag) {
         this.children.push(tag);
-    }
-    consume(tagAnalyzer) {
-        let analyzer = new AttributeAnalyzer_1.default();
-        for (let i = 0; i < this.raw.length; i++) {
-            let symbol = this.raw[i];
-            let state = analyzer.analyze(symbol);
+    };
+    Tag.prototype.consume = function (tagAnalyzer) {
+        var analyzer = new AttributeAnalyzer_1.default();
+        for (var i = 0; i < this.raw.length; i++) {
+            var symbol = this.raw[i];
+            var state = analyzer.analyze(symbol);
             if (state.consumeName()) {
                 this.name += symbol;
             }
@@ -40,12 +40,13 @@ class Tag {
                 this.add2AttributeValue(symbol);
             }
         }
-    }
-    addText(text) {
+    };
+    Tag.prototype.addText = function (text) {
         this.children.push(text);
-    }
-    parse(s) {
+    };
+    Tag.prototype.parse = function (s) {
         this.raw += s;
-    }
-}
+    };
+    return Tag;
+}());
 exports.Tag = Tag;

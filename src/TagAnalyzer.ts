@@ -16,7 +16,6 @@ const COMMENT_CONSUMING = "13";
 const COMMENT_CLOSING = "14";
 const COMMENT_CLOSED = "15";
 const COMMENT_RESUMED = "16";
-
 const SUSPECTING_CLOSING_COMMENT = "14";
 
 export default class TagAnalyzer {

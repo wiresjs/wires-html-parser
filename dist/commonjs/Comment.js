@@ -1,10 +1,12 @@
 "use strict";
-class Comment {
-    constructor(value = "") {
+var Comment = (function () {
+    function Comment(value) {
+        if (value === void 0) { value = ""; }
         this.value = value;
     }
-    add(char) {
+    Comment.prototype.add = function (char) {
         this.value += char;
-    }
-}
+    };
+    return Comment;
+}());
 exports.Comment = Comment;

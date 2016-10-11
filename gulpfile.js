@@ -7,7 +7,9 @@ const fs = require('fs');
 const sourcemaps = require('gulp-sourcemaps');
 const runSequence = require('run-sequence');
 let projectTypings = ts.createProject('src/tsconfig.json');
-let projectCommonjs = ts.createProject('src/tsconfig.json');
+let projectCommonjs = ts.createProject('src/tsconfig.json', {
+    target: "es5"
+});
 
 gulp.task("dist-typings", () => {
     let result = gulp.src('src/**/*.ts')
@@ -21,9 +23,6 @@ gulp.task("dist-commonjs", () => {
         .pipe(projectCommonjs());
     return result.js.pipe(gulp.dest('dist/commonjs'));
 });
-
-
-
 
 gulp.task('build', function() {
     let result = gulp.src('src/**/*.ts')

@@ -1,19 +1,21 @@
 "use strict";
-const Comment_1 = require("./Comment");
-const TagAnalyzer_1 = require("./TagAnalyzer");
-const Tag_1 = require("./Tag");
-const Text_1 = require("./Text");
-const AUTO_CLOSED_TAGS = ["area", "base", "br", "col",
+var Comment_1 = require("./Comment");
+var TagAnalyzer_1 = require("./TagAnalyzer");
+var Tag_1 = require("./Tag");
+var Text_1 = require("./Text");
+var AUTO_CLOSED_TAGS = ["area", "base", "br", "col",
     "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"];
-class Parser {
-    static parse(html, json) {
-        let analyzer = new TagAnalyzer_1.default();
-        let root = new Tag_1.Tag();
-        let comment;
-        let text;
-        for (let i = 0; i < html.length; i++) {
-            let symbol = html[i];
-            let last = i === html.length - 1;
+var Parser = (function () {
+    function Parser() {
+    }
+    Parser.parse = function (html, json) {
+        var analyzer = new TagAnalyzer_1.default();
+        var root = new Tag_1.Tag();
+        var comment;
+        var text;
+        for (var i = 0; i < html.length; i++) {
+            var symbol = html[i];
+            var last = i === html.length - 1;
             analyzer.analyze(symbol, last);
             if (analyzer.shouldResumeComment()) {
                 if (comment) {
@@ -33,7 +35,7 @@ class Parser {
                 comment = null;
             }
             else if (analyzer.isCreated()) {
-                let tag = new Tag_1.Tag(root);
+                var tag = new Tag_1.Tag(root);
                 tag.parse(symbol);
                 root.addTag(tag);
                 root = tag;
@@ -73,23 +75,23 @@ class Parser {
         }
         return root ?
             json ? Parser.toJSON(root.children) : root.children : [];
-    }
-    static html2json(data) {
-        let json = this.parse(data);
+    };
+    Parser.html2json = function (data) {
+        var json = this.parse(data);
         return this.toJSON(json);
-    }
-    static toJSON(data) {
-        let items = [];
-        for (let i = 0; i < data.length; i++) {
-            let item = data[i];
-            let obj = {};
-            let isTag = item instanceof Tag_1.Tag;
-            let isComment = item instanceof Comment_1.Comment;
+    };
+    Parser.toJSON = function (data) {
+        var items = [];
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            var obj = {};
+            var isTag = item instanceof Tag_1.Tag;
+            var isComment = item instanceof Comment_1.Comment;
             obj.type = isComment ? "comment" : isTag ? "tag" : "text";
-            let attrs = {};
+            var attrs = {};
             if (item.attrs) {
-                for (let a = 0; a < item.attrs.length; a++) {
-                    let at = item.attrs[a];
+                for (var a = 0; a < item.attrs.length; a++) {
+                    var at = item.attrs[a];
                     attrs[at[0]] = at[1];
                 }
             }
@@ -113,6 +115,7 @@ class Parser {
             }
         }
         return items;
-    }
-}
+    };
+    return Parser;
+}());
 exports.Parser = Parser;

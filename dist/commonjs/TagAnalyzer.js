@@ -1,63 +1,63 @@
 "use strict";
-const State_1 = require("./State");
-const TAG_OPENED = "1";
-const TAG_CLOSING = "2";
-const TAG_CLOSED = "3";
-const TAG_CREATED = "4";
-const TAG_OPENING = "5";
-const TAG_TEXT_OPENING = "6";
-const TAG_TEXT = "7";
-const TAG_TEXT_END = "8";
-const TAG_CONSUMED = "9";
-const SUSPECTING_COMMENT = "10";
-const COMMENT_PENDING = "11";
-const COMMENT_CREATED = "12";
-const COMMENT_CONSUMING = "13";
-const COMMENT_CLOSING = "14";
-const COMMENT_CLOSED = "15";
-const COMMENT_RESUMED = "16";
-const SUSPECTING_CLOSING_COMMENT = "14";
-class TagAnalyzer {
-    constructor() {
+var State_1 = require("./State");
+var TAG_OPENED = "1";
+var TAG_CLOSING = "2";
+var TAG_CLOSED = "3";
+var TAG_CREATED = "4";
+var TAG_OPENING = "5";
+var TAG_TEXT_OPENING = "6";
+var TAG_TEXT = "7";
+var TAG_TEXT_END = "8";
+var TAG_CONSUMED = "9";
+var SUSPECTING_COMMENT = "10";
+var COMMENT_PENDING = "11";
+var COMMENT_CREATED = "12";
+var COMMENT_CONSUMING = "13";
+var COMMENT_CLOSING = "14";
+var COMMENT_CLOSED = "15";
+var COMMENT_RESUMED = "16";
+var SUSPECTING_CLOSING_COMMENT = "14";
+var TagAnalyzer = (function () {
+    function TagAnalyzer() {
         this.state = new State_1.State();
         this.state.set(TAG_TEXT_OPENING);
     }
-    isCreated() {
+    TagAnalyzer.prototype.isCreated = function () {
         return this.state.has(TAG_CREATED);
-    }
-    isOpened() {
+    };
+    TagAnalyzer.prototype.isOpened = function () {
         return this.state.has(TAG_OPENED);
-    }
-    isClosed() {
+    };
+    TagAnalyzer.prototype.isClosed = function () {
         return this.state.has(TAG_CLOSED);
-    }
-    isText() {
+    };
+    TagAnalyzer.prototype.isText = function () {
         return this.state.has(TAG_TEXT);
-    }
-    isConsumed() {
+    };
+    TagAnalyzer.prototype.isConsumed = function () {
         return this.state.has(TAG_CONSUMED);
-    }
-    shouldResumeComment() {
+    };
+    TagAnalyzer.prototype.shouldResumeComment = function () {
         return this.state.once(COMMENT_RESUMED);
-    }
-    isTextEnd() {
+    };
+    TagAnalyzer.prototype.isTextEnd = function () {
         return this.state.has(TAG_TEXT_END);
-    }
-    isCommentConsuming() {
+    };
+    TagAnalyzer.prototype.isCommentConsuming = function () {
         return this.state.has(COMMENT_CONSUMING);
-    }
-    closeTag() {
+    };
+    TagAnalyzer.prototype.closeTag = function () {
         this.state.unset(TAG_OPENING, TAG_OPENED, TAG_OPENED);
         this.state.set(TAG_CONSUMED);
-    }
-    isCommentClosed() {
+    };
+    TagAnalyzer.prototype.isCommentClosed = function () {
         return this.state.once(COMMENT_CLOSED);
-    }
-    isCommentCreated() {
+    };
+    TagAnalyzer.prototype.isCommentCreated = function () {
         return this.state.has(COMMENT_CREATED);
-    }
-    analyze(i, last) {
-        let state = this.state;
+    };
+    TagAnalyzer.prototype.analyze = function (i, last) {
+        var state = this.state;
         if (state.has(TAG_TEXT_OPENING)) {
             state.set(TAG_TEXT);
         }
@@ -144,7 +144,8 @@ class TagAnalyzer {
                 state.unset(TAG_OPENED);
             }
         }
-    }
-}
+    };
+    return TagAnalyzer;
+}());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TagAnalyzer;

@@ -1,47 +1,47 @@
 "use strict";
-const State_1 = require("./State");
-let s = 0;
-const NAME_PENDING = (s++).toString();
-const NAME_CONSUMING = (s++).toString();
-const NAME_CLOSED = (s++).toString();
-const ATTR_NAME_PENDING = (s++).toString();
-const ATTR_NAME_STARTED = (s++).toString();
-const ATTR_NAME_CONSUMING = (s++).toString();
-const ATTR_NAME_CLOSED = (s++).toString();
-const ATTR_VALUE_PENDING = (s++).toString();
-const ATTR_VALUE_MIGHT_START = (s++).toString();
-const ATTR_VALUE_STARTING = (s++).toString();
-const ATTR_VALUE_CONSUMING = (s++).toString();
-const ATTR_VALUE_PAUSED = (s++).toString();
-const ATTR_VALUE_CLOSED = (s++).toString();
-class AttributeAnalyzer {
-    constructor() {
+var State_1 = require("./State");
+var s = 0;
+var NAME_PENDING = (s++).toString();
+var NAME_CONSUMING = (s++).toString();
+var NAME_CLOSED = (s++).toString();
+var ATTR_NAME_PENDING = (s++).toString();
+var ATTR_NAME_STARTED = (s++).toString();
+var ATTR_NAME_CONSUMING = (s++).toString();
+var ATTR_NAME_CLOSED = (s++).toString();
+var ATTR_VALUE_PENDING = (s++).toString();
+var ATTR_VALUE_MIGHT_START = (s++).toString();
+var ATTR_VALUE_STARTING = (s++).toString();
+var ATTR_VALUE_CONSUMING = (s++).toString();
+var ATTR_VALUE_PAUSED = (s++).toString();
+var ATTR_VALUE_CLOSED = (s++).toString();
+var AttributeAnalyzer = (function () {
+    function AttributeAnalyzer() {
         this.state = new State_1.State();
         this.state.set(NAME_PENDING);
     }
-    consumeName() {
+    AttributeAnalyzer.prototype.consumeName = function () {
         return this.state.has(NAME_CONSUMING);
-    }
-    closeName() {
+    };
+    AttributeAnalyzer.prototype.closeName = function () {
         return this.state.has(NAME_CLOSED);
-    }
-    startAttrName() {
+    };
+    AttributeAnalyzer.prototype.startAttrName = function () {
         return this.state.has(ATTR_NAME_STARTED);
-    }
-    consumeAttrName() {
+    };
+    AttributeAnalyzer.prototype.consumeAttrName = function () {
         return this.state.has(ATTR_NAME_CONSUMING);
-    }
-    closeAttrName() {
+    };
+    AttributeAnalyzer.prototype.closeAttrName = function () {
         return this.state.has(ATTR_NAME_CLOSED);
-    }
-    consumeAttrValue() {
+    };
+    AttributeAnalyzer.prototype.consumeAttrValue = function () {
         return this.state.has(ATTR_VALUE_CONSUMING);
-    }
-    closeAttrValue() {
+    };
+    AttributeAnalyzer.prototype.closeAttrValue = function () {
         return this.state.has(ATTR_VALUE_CONSUMING);
-    }
-    analyze(i) {
-        let state = this.state;
+    };
+    AttributeAnalyzer.prototype.analyze = function (i) {
+        var state = this.state;
         state.clean(NAME_CLOSED, ATTR_NAME_STARTED, ATTR_NAME_CLOSED);
         if (i === undefined) {
             return this;
@@ -113,7 +113,8 @@ class AttributeAnalyzer {
             }
         }
         return this;
-    }
-}
+    };
+    return AttributeAnalyzer;
+}());
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = AttributeAnalyzer;

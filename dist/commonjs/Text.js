@@ -1,7 +1,8 @@
 "use strict";
-class Text {
-    constructor(value) {
+var Text = (function () {
+    function Text(value) {
         this.value = value;
     }
-}
+    return Text;
+}());
 exports.Text = Text;
