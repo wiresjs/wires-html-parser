@@ -3,7 +3,7 @@ var Parser = build.HTMLParser;
 var should = require('should');
 describe('HTMLparser', function() {
 
-
+    /* */
     it('Should parse one tag', function() {
 
         var data = Parser.parse('<div id="test"></div>', true);
@@ -206,4 +206,65 @@ describe('HTMLparser', function() {
             }]
         }]);
     });
+
+
+
+    it('Should parse html and comments ', function() {
+
+        var data = Parser.parse('<div id="restore"><root data-test style="flot: left; background: red;">first text node<!--comment--><h1 >a</h1><component >b</component></root></div>', true);
+        // console.log(data);
+
+        data.should.deepEqual([{
+            "type": "tag",
+            "attrs": {
+                "id": "restore"
+            },
+            "name": "div",
+            "children": [{
+                "type": "tag",
+                "attrs": {
+                    "data-test": "",
+                    "style": "flot: left; background: red;"
+                },
+                "name": "root",
+                "children": [{
+                        "type": "text",
+                        "value": "first text node"
+                    },
+                    {
+                        "type": "comment",
+                        "value": "comment"
+                    },
+                    {
+                        "type": "tag",
+                        "name": "h1",
+                        "children": [{
+                            "type": "text",
+                            "value": "a"
+                        }]
+                    },
+                    {
+                        "type": "tag",
+                        "name": "component",
+                        "children": [{
+                            "type": "text",
+                            "value": "b"
+                        }]
+                    }
+                ]
+            }]
+        }])
+
+    });
+
+
+    it('Should parse root textNodes and comments ', function() {
+
+        var data = Parser.parse('<!-- my-comment --> hello world<div>inner</div>', false);
+        //console.log(data);
+        // console.log(JSON.stringify(data, 2, 2));
+    });
+
+
+
 });

@@ -1,6 +1,5 @@
 import { State } from "./State";
 
-
 const TAG_OPENED = "1";
 const TAG_CLOSING = "2";
 const TAG_CLOSED = "3";
@@ -120,6 +119,7 @@ export default class TagAnalyzer {
             state.set(COMMENT_CONSUMING);
             return;
         }
+
         if (state.once(COMMENT_PENDING)) {
             if (i === "-") { // second hyphen has arrived "<!--"
                 state.removeAll(); // reset all the states
@@ -135,6 +135,7 @@ export default class TagAnalyzer {
                 state.set(COMMENT_PENDING);
             }
         }
+
         if (state.has(COMMENT_CLOSING)) {
             if (i === ">") {
                 state.removeAll();
@@ -142,6 +143,7 @@ export default class TagAnalyzer {
                 return;
             }
         }
+
         // closing comment
         if (state.once(SUSPECTING_CLOSING_COMMENT)) {
             if (i === "-") {
@@ -164,12 +166,11 @@ export default class TagAnalyzer {
             }
         }
 
-
-
         if (state.has(TAG_CREATED)) {
             state.unset(TAG_CREATED);
             state.set(TAG_OPENED);
         }
+
         if (state.has(TAG_OPENING)) {
             if (i === "!") {
 
@@ -179,6 +180,7 @@ export default class TagAnalyzer {
             }
             state.unset(TAG_OPENING);
         }
+
         if (i === "<") {
             if (!state.has(TAG_OPENED)) {
                 state.set(TAG_OPENING);

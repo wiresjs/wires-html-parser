@@ -1,3 +1,3 @@
 export class Text {
-    constructor(public str: string) { }
+    constructor(public value: string) { }
 }
