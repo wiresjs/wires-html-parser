@@ -1,4 +1,4 @@
-export default class Text {
+export declare class Text {
     str: string;
     constructor(str: string);
 }

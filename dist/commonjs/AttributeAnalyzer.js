@@ -1,4 +1,5 @@
-import { State } from "./State";
+"use strict";
+const State_1 = require("./State");
 let s = 0;
 const NAME_PENDING = (s++).toString();
 const NAME_CONSUMING = (s++).toString();
@@ -13,9 +14,9 @@ const ATTR_VALUE_STARTING = (s++).toString();
 const ATTR_VALUE_CONSUMING = (s++).toString();
 const ATTR_VALUE_PAUSED = (s++).toString();
 const ATTR_VALUE_CLOSED = (s++).toString();
-export default class AttributeAnalyzer {
+class AttributeAnalyzer {
     constructor() {
-        this.state = new State();
+        this.state = new State_1.State();
         this.state.set(NAME_PENDING);
     }
     consumeName() {
@@ -114,3 +115,5 @@ export default class AttributeAnalyzer {
         return this;
     }
 }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = AttributeAnalyzer;

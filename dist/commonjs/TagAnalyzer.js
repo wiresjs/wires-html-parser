@@ -1,4 +1,5 @@
-import { State } from "./State";
+"use strict";
+const State_1 = require("./State");
 const TAG_OPENED = "1";
 const TAG_CLOSING = "2";
 const TAG_CLOSED = "3";
@@ -8,9 +9,9 @@ const TAG_TEXT_OPENING = "6";
 const TAG_TEXT = "7";
 const TAG_TEXT_END = "8";
 const TAG_CONSUMED = "9";
-export default class TagAnalyzer {
+class TagAnalyzer {
     constructor() {
-        this.state = new State();
+        this.state = new State_1.State();
     }
     isCreated() {
         return this.state.has(TAG_CREATED);
@@ -76,3 +77,5 @@ export default class TagAnalyzer {
         }
     }
 }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = TagAnalyzer;

@@ -1,5 +1,6 @@
-import AttributeAnalyzer from "./AttributeAnalyzer";
-export default class Tag {
+"use strict";
+const AttributeAnalyzer_1 = require("./AttributeAnalyzer");
+class Tag {
     constructor(parent) {
         this.name = "";
         this.children = [];
@@ -22,7 +23,7 @@ export default class Tag {
         this.children.push(tag);
     }
     consume(tagAnalyzer) {
-        let analyzer = new AttributeAnalyzer();
+        let analyzer = new AttributeAnalyzer_1.default();
         for (let i = 0; i < this.raw.length; i++) {
             let symbol = this.raw[i];
             let state = analyzer.analyze(symbol);
@@ -47,3 +48,4 @@ export default class Tag {
         this.raw += s;
     }
 }
+exports.Tag = Tag;

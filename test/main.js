@@ -1,4 +1,4 @@
-let build = require(__dirname + "/../build/build.js");
+let build = require(__dirname + "/../build/commonjs/index.js");
 var Parser = build.HTMLParser;
 var should = require('should');
 describe('HTMLparser', function() {

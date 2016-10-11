@@ -1,19 +1,20 @@
-import TagAnalyzer from "./TagAnalyzer";
-import Tag from "./Tag";
-import Text from "./Text";
+"use strict";
+const TagAnalyzer_1 = require("./TagAnalyzer");
+const Tag_1 = require("./Tag");
+const Text_1 = require("./Text");
 const AUTO_CLOSED_TAGS = ["area", "base", "br", "col",
     "embed", "hr", "img", "input", "keygen", "link", "meta", "param", "source", "track", "wbr"];
-export class Parser {
+class Parser {
     static parse(html, json) {
-        let analyzer = new TagAnalyzer();
-        let root = new Tag();
+        let analyzer = new TagAnalyzer_1.default();
+        let root = new Tag_1.Tag();
         let text;
         for (let i = 0; i < html.length; i++) {
             let symbol = html[i];
             let last = i === html.length - 1;
             analyzer.analyze(symbol, last);
             if (analyzer.isCreated()) {
-                let tag = new Tag(root);
+                let tag = new Tag_1.Tag(root);
                 tag.parse(symbol);
                 root.addTag(tag);
                 root = tag;
@@ -41,12 +42,12 @@ export class Parser {
                 text = text || "";
                 text += symbol;
                 if (last && root) {
-                    root.addText(new Text(text));
+                    root.addText(new Text_1.Text(text));
                 }
             }
             else if (analyzer.isTextEnd()) {
                 if (root) {
-                    root.addText(new Text(text));
+                    root.addText(new Text_1.Text(text));
                 }
                 text = undefined;
             }
@@ -62,7 +63,7 @@ export class Parser {
         for (let i = 0; i < data.length; i++) {
             let item = data[i];
             let obj = {};
-            let isTag = item instanceof Tag;
+            let isTag = item instanceof Tag_1.Tag;
             obj.type = isTag ? "tag" : "text";
             let attrs = {};
             if (item.attrs) {
@@ -90,3 +91,4 @@ export class Parser {
         return items;
     }
 }
+exports.Parser = Parser;

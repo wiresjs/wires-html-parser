@@ -1,6 +1,6 @@
 import TagAnalyzer from "./TagAnalyzer";
-import Tag from "./Tag";
-import Text from "./Text";
+import {Tag} from "./Tag";
+import {Text} from "./Text";
 
 
 const AUTO_CLOSED_TAGS = ["area", "base", "br", "col",
@@ -24,7 +24,7 @@ export class Parser {
      * @param  {type} html description
      * @return {type}      description
      */
-    public static parse(html: string, json?) {
+    public static parse(html: string, json?): (Tag | Text)[] {
 
         let analyzer = new TagAnalyzer();
         let root = new Tag();

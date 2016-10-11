@@ -1,6 +1,6 @@
 import AttributeAnalyzer from "./AttributeAnalyzer";
 
-export default class Tag {
+export class Tag {
     public parent: any;
     public name: string = "";
     public children: any[] = [];

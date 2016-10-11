@@ -1,9 +1,9 @@
 {
     "name": "wires-html-parser",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Hello!",
     "typings": "dist/typings/index.d.ts",
-    "main": "dist/universal/dist.js",
+    "main": "dist/commonjs/index.js",
     "directories": {
         "test": "test"
     },

@@ -1,4 +1,4 @@
-export default class Tag {
+export declare class Tag {
     parent: any;
     name: string;
     children: any[];

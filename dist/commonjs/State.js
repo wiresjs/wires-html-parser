@@ -1,4 +1,5 @@
-export class State {
+"use strict";
+class State {
     constructor() {
         this.states = new Set();
     }
@@ -33,3 +34,4 @@ export class State {
         }
     }
 }
+exports.State = State;
