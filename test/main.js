@@ -360,5 +360,20 @@ describe('HTMLparser', function() {
 
     })
 
+    it("Should parse styles", function() {
+        var data = Parser.parse('<div><style>.hello{border:1px solid red}</style></div>', true);
+
+        data.should.deepEqual([{
+            "name": "div",
+            "children": [{
+                "name": "style",
+                "value": ".hello{border:1px solid red}",
+                "type": "tag"
+            }],
+            "type": "tag"
+        }])
+
+    })
+
 
 });

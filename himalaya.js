@@ -7,7 +7,7 @@
     var commentEnd = '-->';
 
     var voidTags = [
-        "!doctype", "area", "base", "br", "col", "command",
+        "!doctype", "area", "base", "br",   "col", "command",
         "embed", "hr", "img", "input", "keygen", "link",
         "meta", "param", "source", "track", "wbr"
     ];
@@ -121,7 +121,7 @@
                 var end = '</' + tagName + '>';
                 var idx = str.indexOf(end);
                 if (!~idx) idx = Infinity;
-                tag.content = str.slice(0, idx);
+                tag.value = str.slice(0, idx);
                 str = str.slice(idx);
             } else if (!~voidTags.indexOf(lowTagName)) {
                 var results = parseUntil(str, stack.concat(tagName));
@@ -282,7 +282,7 @@
 
     var himalaya = {
         parse: parse,
-        html2json : parse,
+        html2json: parse,
         parseTag: parseTag,
         parseUntil: parseUntil,
         parseAttrs: parseAttrs
