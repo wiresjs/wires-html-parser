@@ -1,9 +1,9 @@
 {
     "name": "wires-html-parser",
-    "version": "1.0.9",
+    "version": "1.1.0",
     "description": "Hello!",
     "typings": "dist/typings/index.d.ts",
-    "main": "dist/commonjs/index.js",
+    "main": "./himalaya.js",
     "directories": {
         "test": "test"
     },

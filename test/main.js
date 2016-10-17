@@ -1,13 +1,14 @@
-let build = require(__dirname + "/../build/commonjs/index.js");
-var Parser = build.HTMLParser;
+//let build = require(__dirname + "/../build/commonjs/index.js");
+//var Parser = build.HTMLParser;
+
+var Parser = require("../himalaya.js");
 var should = require('should');
 describe('HTMLparser', function() {
-
-    /**/
 
     it('Should parse one tag', function() {
 
         var data = Parser.parse('<div id="test"></div>', true);
+
         data.should.deepEqual([{
             "type": "tag",
             "attrs": {
@@ -34,9 +35,12 @@ describe('HTMLparser', function() {
             }]
         }]);
     });
+
     it('Should parse one tag with text and a tag', function() {
 
         var data = Parser.parse('<div id="test">hello world<strong>bold text</strong></div>', true);
+
+
         data.should.deepEqual([{
             "type": "tag",
             "attrs": {
@@ -54,9 +58,10 @@ describe('HTMLparser', function() {
                     value: "bold text"
                 }]
             }]
-        }]);
+        }])
 
     });
+
 
     it('Should parse attributes', function() {
 
@@ -95,6 +100,7 @@ describe('HTMLparser', function() {
     it('Should be okay with properly closed br', function() {
 
         var data = Parser.parse('<br/><div>hello</div>', true);
+        //  console.log(data);
 
         data.should.deepEqual([{
             "type": "tag",
@@ -171,7 +177,10 @@ describe('HTMLparser', function() {
 
     it('Should parse attributes correctly', function() {
 
-        var data = Parser.parse('<a ws-link="/user/profile"></a>', true);
+        var data = Parser.parse('<a ws-link="/user/profile"></a>', {
+            //camelCaseAttributes: true
+        });
+
         data.should.deepEqual([{
             type: 'tag',
             attrs: {
@@ -182,6 +191,24 @@ describe('HTMLparser', function() {
         }])
 
     });
+
+    it('Should parse attributes correctly with camel case', function() {
+
+        var data = Parser.parse('<a ws-link="/user/profile"></a>', {
+            camelCaseAttributes: true
+        });
+
+        data.should.deepEqual([{
+            type: 'tag',
+            attrs: {
+                'wsLink': '/user/profile'
+            },
+            name: 'a',
+            children: []
+        }])
+
+    });
+
     it('Should parse comments', function() {
 
         var data = Parser.parse('<div><!--my comment--></div>', true);
@@ -194,7 +221,6 @@ describe('HTMLparser', function() {
             }]
         }]);
     });
-
 
 
 
@@ -244,6 +270,7 @@ describe('HTMLparser', function() {
         }])
 
     });
+
 
 
 
@@ -308,7 +335,30 @@ describe('HTMLparser', function() {
                 "children": []
             }
         ])
+
     });
+
+    it("Should parse doctype correctly", function() {
+        var data = Parser.parse('<!doctype html><html>aaaa</html>', true);
+
+        data.should.deepEqual([{
+                "name": "!doctype",
+                "attrs": {
+                    "html": ""
+                },
+                "type": "tag"
+            },
+            {
+                "name": "html",
+                "children": [{
+                    "value": "aaaa",
+                    "type": "text"
+                }],
+                "type": "tag"
+            }
+        ])
+
+    })
 
 
 });
